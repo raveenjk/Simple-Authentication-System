@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NexusAuth | Welcome</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #00f0ff;
+            --primary-dark: #00c4d1;
+            --secondary: #ff2d75;
+            --success: #00e676;
+            --danger: #ff3d57;
+            --warning: #ffaa00;
+            --info: #00b0ff;
+            --dark: #0a0a12;
+            --darker: #07070e;
+            --light: #f0f0f3;
+            --lighter: #ffffff;
+            --gray: #8a8a9d;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, var(--darker), #15152a);
+            color: var(--light);
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        .auth-container {
+            display: flex;
+            min-height: 100vh;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+        }
+        
+        .auth-card {
+            background: rgba(10, 10, 18, 0.7);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-radius: 24px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
+            width: 100%;
+            max-width: 480px;
+            padding: 3.5rem;
+            text-align: center;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .auth-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(0, 240, 255, 0.1) 0%, rgba(0, 240, 255, 0) 70%);
+            z-index: -1;
+            transition: all 0.6s ease;
+        }
+        
+        .auth-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.4);
+        }
+        
+        .auth-card:hover::before {
+            transform: translate(25%, 25%);
+        }
+        
+        .logo {
+            font-size: 2.75rem;
+            font-weight: 700;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 1.5rem;
+            letter-spacing: -1px;
+        }
+        
+        h1 {
+            font-size: 2rem;
+            margin-bottom: 1.25rem;
+            color: var(--lighter);
+            font-weight: 600;
+        }
+        
+        p.subtitle {
+            color: var(--gray);
+            margin-bottom: 2.5rem;
+            font-size: 1.1rem;
+            line-height: 1.7;
+        }
+        
+        .btn-group {
+            display: flex;
+            flex-direction: column;
+            gap: 1.25rem;
+            margin-top: 2.5rem;
+        }
+        
+        .btn {
+            display: inline-block;
+            padding: 1rem 1.75rem;
+            border-radius: 12px;
+            font-weight: 500;
+            text-decoration: none;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            text-align: center;
+            font-size: 1rem;
+            border: none;
+            cursor: pointer;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: var(--darker);
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+        }
+        
+        .btn-primary::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, var(--secondary), var(--primary));
+            opacity: 0;
+            z-index: -1;
+            transition: opacity 0.3s ease;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(0, 240, 255, 0.3);
+        }
+        
+        .btn-primary:hover::before {
+            opacity: 1;
+        }
+        
+        .btn-outline {
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            color: var(--light);
+            background: transparent;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .btn-outline:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(0, 240, 255, 0.1);
+        }
+        
+        /* Notification System */
+        .notification-container {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+            max-width: 350px;
+            width: 100%;
+        }
+        
+        .notification {
+            position: relative;
+            padding: 1.25rem;
+            margin-bottom: 1rem;
+            border-radius: 14px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+            color: var(--light);
+            display: flex;
+            align-items: center;
+            transform: translateX(400px);
+            opacity: 0;
+            animation: slideIn 0.5s forwards, fadeOut 0.5s 2.5s forwards;
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            background: rgba(10, 10, 18, 0.8);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+        
+        .notification.success {
+            border-left: 4px solid var(--success);
+        }
+        
+        .notification.error {
+            border-left: 4px solid var(--danger);
+        }
+        
+        .notification.warning {
+            border-left: 4px solid var(--warning);
+        }
+        
+        .notification.info {
+            border-left: 4px solid var(--info);
+        }
+        
+        .notification-icon {
+            margin-right: 1rem;
+            font-size: 1.5rem;
+            flex-shrink: 0;
+        }
+        
+        .notification-content {
+            flex: 1;
+            text-align: left;
+        }
+        
+        .notification-close {
+            background: none;
+            border: none;
+            color: var(--gray);
+            font-size: 1.5rem;
+            cursor: pointer;
+            margin-left: 0.75rem;
+            transition: color 0.2s ease;
+        }
+        
+        .notification-close:hover {
+            color: var(--light);
+        }
+        
+        @keyframes slideIn {
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+        
+        @keyframes fadeOut {
+            to {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .auth-card {
+                padding: 2.5rem;
+                border-radius: 20px;
+            }
+            
+            .logo {
+                font-size: 2.25rem;
+            }
+            
+            h1 {
+                font-size: 1.75rem;
+            }
+            
+            .notification-container {
+                max-width: 90%;
+                right: 5%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Notification container at the top right -->
+    <div class="notification-container" id="notificationContainer">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% for category, message in messages %}
+                <div class="notification {{ category }}">
+                    <div class="notification-icon">
+                        {% if category == 'success' %}
+                            ✓
+                        {% elif category == 'error' %}
+                            ✗
+                        {% elif category == 'warning' %}
+                            !
+                        {% else %}
+                            i
+                        {% endif %}
+                    </div>
+                    <div class="notification-content">{{ message }}</div>
+                    <button class="notification-close" onclick="this.parentElement.remove()">×</button>
+                </div>
+            {% endfor %}
+        {% endwith %}
+    </div>
+    
+    <div class="auth-container">
+        <div class="auth-card">
+            <div class="logo">NexusAuth</div>
+            <h1>Welcome to Nexus</h1>
+            <p class="subtitle">Next-generation authentication system with cutting-edge security and seamless experience</p>
+            
+            <div class="btn-group">
+                <a href="{{ url_for('register') }}" class="btn btn-primary">Create Account</a>
+                <a href="{{ url_for('login') }}" class="btn btn-outline">Sign In</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Enhanced notification removal with animation
+        document.addEventListener('DOMContentLoaded', function() {
+            const notifications = document.querySelectorAll('.notification');
+            notifications.forEach(notification => {
+                setTimeout(() => {
+                    notification.style.animation = 'fadeOut 0.5s forwards';
+                    notification.addEventListener('animationend', () => {
+                        notification.remove();
+                    });
+                }, 3000);
+                
+                // Add hover pause
+                notification.addEventListener('mouseenter', () => {
+                    notification.style.animationPlayState = 'paused';
+                });
+                
+                notification.addEventListener('mouseleave', () => {
+                    notification.style.animationPlayState = 'running';
+                });
+            });
+        });
+    </script>
+</body>
+</html>
