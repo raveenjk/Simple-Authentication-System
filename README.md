@@ -99,5 +99,5 @@ Visit: [http://127.0.0.1:3000](http://127.0.0.1:3000)
 ---
 
 ## ✍️ Author
-
 - [Raveen Madhawa](https://github.com/raveenjk)
+![Screenshot 2025-06-14 174556](https://github.com/user-attachments/assets/eae668c8-742c-43bd-8cec-2b158637d7f9)
